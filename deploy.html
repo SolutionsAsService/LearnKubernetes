@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deploying a Simple Application</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Kubernetes Learning Hub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="deploy.html">Deploy Application</a></li>
+        <li><a href="scaling.html">Scaling</a></li>
+        <li><a href="rolling-updates.html">Rolling Updates</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Deploying a Simple Application</h2>
+      <p>
+        Learn how to deploy a simple application using a Kubernetes <strong>Deployment</strong> and expose it via a <strong>Service</strong>.
+        Below, you can see sample YAML configurations illustrating how Kubernetes resources are defined and managed.
+      </p>
+      <h3>Deployment Example</h3>
+      <p>
+        This YAML defines a Deployment that runs a simple application (using the Nginx image) with a single replica:
+      </p>
+      <pre><code class="yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-app
+  labels:
+    app: simple-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app
+  template:
+    metadata:
+      labels:
+        app: simple-app
+    spec:
+      containers:
+      - name: simple-app-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+      </code></pre>
+      <h3>Service Example</h3>
+      <p>
+        This YAML defines a Service that exposes the above Deployment. The Service routes traffic to pods with the label <code>app: simple-app</code> on port 80:
+      </p>
+      <pre><code class="yaml">
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-app-service
+spec:
+  selector:
+    app: simple-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+      </code></pre>
+      <p>
+        With these configurations, you can deploy and expose your simple application within your Kubernetes cluster.
+      </p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Kubernetes Learning Hub</p>
+  </footer>
+</body>
+</html>
