@@ -1,12 +1,19 @@
-/* style.css */
-
-/* Global Styles */
+/* ========================================================================
+   Global Styles & Animations
+   ======================================================================== */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   background: #f4f7fc; /* Light background for a clean look */
   color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  overflow: hidden;
 }
 
 /* Slide-in animation from the left */
@@ -31,6 +38,9 @@ body {
   }
 }
 
+/* ========================================================================
+   Header & Navigation
+   ======================================================================== */
 /* Header Styling */
 header {
   background: linear-gradient(135deg, #0052cc, #2684ff); /* Kubernetes-themed blue gradient */
@@ -41,9 +51,25 @@ header {
   animation: slideInLeft 0.8s ease-out;
 }
 
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.logo {
+  margin-right: 10px;
+}
+
+.header-logo {
+  height: 50px; /* Small logo to prevent layout disruption */
+  width: auto;
+}
+
 header h1 {
   margin: 0;
-  /* Apply slide-in from left and a subtle glowing effect */
+  font-size: 2em;
   animation: slideInLeft 0.8s ease-out, titleGlow 2s ease-in-out infinite alternate;
 }
 
@@ -70,12 +96,14 @@ nav ul li a {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Navigation Hover Effects */
 nav ul li a:hover {
   background-color: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
 }
 
+/* ========================================================================
+   Main Content & Sections
+   ======================================================================== */
 /* Main Content Area */
 main {
   padding: 40px 20px;
@@ -95,7 +123,110 @@ h2, h3 {
   margin-bottom: 20px;
 }
 
-/* Article Styling */
+/* ========================================================================
+   Hero Section
+   ======================================================================== */
+.hero {
+  padding: 2em;
+  background-color: #e8f4fc;
+  text-align: center;
+}
+
+.hero-content h2 {
+  margin-top: 0;
+}
+
+.hero-content p {
+  font-size: 1.1em;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #326ce5;
+  color: #fff;
+  padding: 0.8em 1.5em;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 1em;
+}
+
+/* ========================================================================
+   Large Kubernetes Image Section
+   ======================================================================== */
+.kubernetes-visual {
+  padding: 2em 0;
+  text-align: center;
+  background-color: #fff;
+}
+
+.large-k8s-img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.image-caption {
+  margin-top: 0.5em;
+  font-style: italic;
+  color: #555;
+}
+
+/* ========================================================================
+   Intro Section
+   ======================================================================== */
+.intro {
+  padding: 2em 0;
+  background-color: #fff;
+}
+
+/* ========================================================================
+   Features Section
+   ======================================================================== */
+.features {
+  padding: 2em 0;
+  background-color: #f4f4f4;
+}
+
+.feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.feature {
+  flex: 1;
+  min-width: 250px;
+  background-color: #fff;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* ========================================================================
+   Latest News Section
+   ======================================================================== */
+.latest-news {
+  padding: 2em 0;
+  background-color: #fff;
+}
+
+.latest-news ul {
+  list-style: none;
+  padding: 0;
+}
+
+.latest-news li {
+  padding: 0.5em 0;
+}
+
+.latest-news a {
+  text-decoration: none;
+  color: #326ce5;
+}
+
+/* ========================================================================
+   Article Styling (Reusable Content Blocks)
+   ======================================================================== */
 article {
   background: #fff;
   border: 1px solid #dfe1e6;
@@ -106,13 +237,14 @@ article {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Article Hover Effects */
 article:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-4px);
 }
 
-/* Footer Styling */
+/* ========================================================================
+   Footer Styling
+   ======================================================================== */
 footer {
   background: #0052cc;
   color: #fff;
@@ -122,12 +254,38 @@ footer {
   animation: slideInLeft 0.8s ease-out;
 }
 
-/* Responsive Design Adjustments */
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+  gap: 1em;
+  margin: 0.5em 0 0;
+}
+
+.footer-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+/* ========================================================================
+   Responsive Design Adjustments
+   ======================================================================== */
 @media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
   nav ul {
     flex-direction: column;
   }
+  
   nav ul li {
     margin: 10px 0;
+  }
+  
+  .feature-list {
+    flex-direction: column;
   }
 }
