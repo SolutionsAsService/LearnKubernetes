@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scaling Your Application</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Kubernetes Learning Hub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="deploy.html">Deploy Application</a></li>
+        <li><a href="scaling.html">Scaling</a></li>
+        <li><a href="rolling-updates.html">Rolling Updates</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Scaling Your Application</h2>
+      <p>
+        Understand how to scale your application by adjusting the number of replicas in your Deployment configuration.
+      </p>
+      <p>
+        By increasing the number of replicas, you can improve application availability and load-handling capacity. For example, changing the <code>replicas</code> field from 1 to 3 will instruct Kubernetes to run three instances of your application.
+      </p>
+      <pre><code class="yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scalable-app
+  labels:
+    app: scalable-app
+spec:
+  replicas: 3   # Increase the number of replicas to 3
+  selector:
+    matchLabels:
+      app: scalable-app
+  template:
+    metadata:
+      labels:
+        app: scalable-app
+    spec:
+      containers:
+      - name: scalable-app-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+      </code></pre>
+      <p>
+        After updating the YAML file, apply the changes using <code>kubectl apply -f scaling.yaml</code> (or your chosen filename), and Kubernetes will manage the scaling process automatically.
+      </p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Kubernetes Learning Hub</p>
+  </footer>
+</body>
+</html>
