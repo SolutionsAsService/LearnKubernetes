@@ -1,0 +1,55 @@
+# =============================================================================
+# Kubernetes Example YAML File
+# This file demonstrates two common Kubernetes resources: a Deployment and a Service.
+# Each section is thoroughly commented to explain its purpose and configuration options.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Deployment Definition
+# -----------------------------------------------------------------------------
+# A Deployment manages a ReplicaSet to ensure that a specified number of pod replicas are running.
+# It provides declarative updates for pods and ensures that the desired state is maintained.
+apiVersion: apps/v1            # API version for the Deployment resource.
+kind: Deployment               # Specifies that this resource is a Deployment.
+metadata:
+  name: example-deployment     # Unique name for the Deployment within the namespace.
+  labels:
+    app: example               # Labels help group and identify related resources.
+spec:
+  replicas: 3                  # Desired number of pod replicas to run. Kubernetes will maintain this count.
+  selector:
+    matchLabels:
+      app: example             # Selector to identify which pods belong to this Deployment.
+                                # The labels here must match those specified in the pod template below.
+  template:                    # The pod template describes the pods that will be created.
+    metadata:
+      labels:
+        app: example           # Labels assigned to the pods; must match the Deployment selector.
+    spec:
+      containers:
+      - name: example-container  # Name for the container running inside the pod.
+        image: nginx:1.21        # Container image to run; here we use the Nginx web server.
+        ports:
+        - containerPort: 80      # Port on which the container will listen for traffic.
+                                  # This information is used to map container ports to the service later.
+
+# -----------------------------------------------------------------------------
+# 2. Service Definition
+# -----------------------------------------------------------------------------
+# A Service defines a logical set of pods and a policy by which to access them.
+# Here, we create a Service to expose our Deployment's pods within the cluster.
+---
+apiVersion: v1                # API version for the Service resource.
+kind: Service               # Declares that this resource is a Service.
+metadata:
+  name: example-service     # Unique name for the Service.
+spec:
+  type: ClusterIP           # Service type that exposes the service on an internal cluster IP.
+                            # Other types include NodePort, LoadBalancer, etc.
+  selector:
+    app: example            # This selector connects the Service to the pods managed by the Deployment.
+                            # It matches pods with the label "app: example".
+  ports:
+  - protocol: TCP           # Protocol used by the service; TCP is common for HTTP/HTTPS traffic.
+    port: 80                # Port on which the service will be exposed inside the cluster.
+    targetPort: 80          # Port on the container that the service will forward traffic to.
