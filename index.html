@@ -7,26 +7,98 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header with logo and navigation -->
   <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="introduction.html">Introduction</a></li>
-        <li><a href="components.html">Components</a></li>
-        <li><a href="tutorials.html">Tutorials</a></li>
-      </ul>
-    </nav>
+    <div class="header-container">
+      <div class="logo">
+        <img src="images/kubernetes-logo.png" alt="Kubernetes Logo">
+      </div>
+      <h1>Kubernetes Learning Hub</h1>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="introduction.html">Introduction</a></li>
+          <li><a href="components.html">Components</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
+
+  <!-- Main content -->
   <main>
-    <section>
-      <h2>Welcome to the Kubernetes Learning Hub</h2>
-      <p>This website is dedicated to teaching you about Kubernetes—its architecture, components, and how to deploy applications using this powerful platform.</p>
-      <p>Use the navigation links above to explore the different sections of the site.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Welcome to the Kubernetes Learning Hub</h2>
+        <p>Your ultimate resource for mastering Kubernetes. Explore our comprehensive tutorials, detailed guides, and interactive labs to boost your cloud-native skills.</p>
+        <a href="tutorials.html" class="btn">Start Learning</a>
+      </div>
+      <div class="hero-image">
+        <img src="images/Kubernetes.jpg" alt="Kubernetes logo">
+      </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro">
+      <div class="container">
+        <h3>About Kubernetes</h3>
+        <p>Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. Our hub is dedicated to providing clear, hands-on resources to help you understand and leverage Kubernetes effectively.</p>
+      </div>
+    </section>
+
+    <!-- Features / Learning Paths Section -->
+    <section class="features">
+      <div class="container">
+        <h3>What You'll Learn</h3>
+        <div class="feature-list">
+          <article class="feature">
+            <h4>Architecture Overview</h4>
+            <p>Discover the core components and design principles behind Kubernetes.</p>
+          </article>
+          <article class="feature">
+            <h4>Deployment Strategies</h4>
+            <p>Learn best practices for deploying and managing applications on Kubernetes.</p>
+          </article>
+          <article class="feature">
+            <h4>Scaling & Automation</h4>
+            <p>Understand how to scale your applications and automate routine tasks.</p>
+          </article>
+          <article class="feature">
+            <h4>Hands-On Tutorials</h4>
+            <p>Engage with interactive labs and real-world examples to build your skills.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="latest-news">
+      <div class="container">
+        <h3>Latest News & Updates</h3>
+        <ul>
+          <li><a href="news1.html">Kubernetes 1.25 Released: What’s New?</a></li>
+          <li><a href="news2.html">Securing Your Kubernetes Cluster: Best Practices</a></li>
+          <li><a href="news3.html">Upcoming Webinar: Advanced Kubernetes Techniques</a></li>
+        </ul>
+      </div>
     </section>
   </main>
+
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
+    <div class="footer-container">
+      <p>&copy; 2025 Kubernetes Learning Hub. All rights reserved.</p>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
   </footer>
 </body>
 </html>
