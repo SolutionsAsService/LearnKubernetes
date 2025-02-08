@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performing Rolling Updates</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Kubernetes Learning Hub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="deploy.html">Deploy Application</a></li>
+        <li><a href="scaling.html">Scaling</a></li>
+        <li><a href="rolling-updates.html">Rolling Updates</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Performing Rolling Updates</h2>
+      <p>
+        Kubernetes supports seamless rolling updates, allowing you to update your applications with minimal downtime. This is achieved by gradually replacing old pods with new ones.
+      </p>
+      <p>
+        The following YAML snippet configures a Deployment for rolling updates by specifying the update strategy:
+      </p>
+      <pre><code class="yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rolling-update-app
+  labels:
+    app: rolling-update-app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1       # Maximum extra pods that can be created during the update
+      maxUnavailable: 1 # Maximum pods that can be unavailable during the update
+  selector:
+    matchLabels:
+      app: rolling-update-app
+  template:
+    metadata:
+      labels:
+        app: rolling-update-app
+    spec:
+      containers:
+      - name: rolling-update-container
+        image: nginx:1.19  # Current image version
+        ports:
+        - containerPort: 80
+      </code></pre>
+      <p>
+        To perform an update, change the container's image (for example, to <code>nginx:1.21</code>), then apply the updated configuration. Kubernetes will then perform a rolling update by gradually replacing pods, ensuring minimal disruption.
+      </p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Kubernetes Learning Hub</p>
+  </footer>
+</body>
+</html>
