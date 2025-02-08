@@ -16,6 +16,13 @@ body {
   overflow: hidden;
 }
 
+/* Ensure all images are responsive and constrained within their containers */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Slide-in animation from the left */
 @keyframes slideInLeft {
   from {
@@ -130,6 +137,8 @@ h2, h3 {
   padding: 2em;
   background-color: #e8f4fc;
   text-align: center;
+  /* Ensure contained images do not exceed their parent container */
+  overflow: hidden;
 }
 
 .hero-content h2 {
@@ -157,11 +166,12 @@ h2, h3 {
   padding: 2em 0;
   text-align: center;
   background-color: #fff;
+  overflow: hidden;
 }
 
 .large-k8s-img {
-  max-width: 90%;
-  height: auto;
+  max-width: 90%; /* Image will not exceed 90% of its container */
+  margin: 0 auto;
   border-radius: 8px;
 }
 
@@ -177,6 +187,7 @@ h2, h3 {
 .intro {
   padding: 2em 0;
   background-color: #fff;
+  overflow: hidden;
 }
 
 /* ========================================================================
@@ -185,6 +196,7 @@ h2, h3 {
 .features {
   padding: 2em 0;
   background-color: #f4f4f4;
+  overflow: hidden;
 }
 
 .feature-list {
@@ -208,6 +220,7 @@ h2, h3 {
 .latest-news {
   padding: 2em 0;
   background-color: #fff;
+  overflow: hidden;
 }
 
 .latest-news ul {
