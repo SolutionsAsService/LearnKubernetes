@@ -1,82 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deploying a Simple Application</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy | Learn Kubernetes</title>
+<meta name="description" content="Deploy a simple app with a Deployment and a Service, and follow what Kubernetes does with the YAML.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="deploy.html">Deploy Application</a></li>
-        <li><a href="scaling.html">Scaling</a></li>
-        <li><a href="rolling-updates.html">Rolling Updates</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Deploying a Simple Application</h2>
-      <p>
-        Learn how to deploy a simple application using a Kubernetes <strong>Deployment</strong> and expose it via a <strong>Service</strong>.
-        Below, you can see sample YAML configurations illustrating how Kubernetes resources are defined and managed.
-      </p>
-      <h3>Deployment Example</h3>
-      <p>
-        This YAML defines a Deployment that runs a simple application (using the Nginx image) with a single replica:
-      </p>
-      <pre><code class="yaml">
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: simple-app
-  labels:
-    app: simple-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: simple-app
-  template:
-    metadata:
-      labels:
-        app: simple-app
-    spec:
-      containers:
-      - name: simple-app-container
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-      </code></pre>
-      <h3>Service Example</h3>
-      <p>
-        This YAML defines a Service that exposes the above Deployment. The Service routes traffic to pods with the label <code>app: simple-app</code> on port 80:
-      </p>
-      <pre><code class="yaml">
-apiVersion: v1
-kind: Service
-metadata:
-  name: simple-app-service
-spec:
-  selector:
-    app: simple-app
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  type: ClusterIP
-      </code></pre>
-      <p>
-        With these configurations, you can deploy and expose your simple application within your Kubernetes cluster.
-      </p>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
-  </footer>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html">Objects</a></li><li><a href="deploy.html" aria-current="page">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html">Scaling</a></li><li><a href="rolling-updates.html">Updates</a></li><li><a href="tutorials.html">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 4 of 8</p><h1>Deploy an app</h1><p class="lede">One YAML file says what you want. This lesson shows the file, then follows what happens when you apply it.</p>
+<h2>The Deployment</h2>
+<p>A Deployment that runs one copy of nginx. Read the comments; the rest is boilerplate you will recognise quickly.</p>
+<pre class="code" tabindex="0" role="region" aria-label="YAML example"><code><span class="k">apiVersion:</span> apps/v1
+<span class="k">kind:</span> Deployment
+<span class="k">metadata:</span>
+  <span class="k">name:</span> simple-app
+  <span class="k">labels:</span>
+    <span class="k">app:</span> simple-app
+<span class="k">spec:</span>
+  <span class="k">replicas:</span> 1<span class="c">             # how many pods you want</span>
+  <span class="k">selector:</span>
+    <span class="k">matchLabels:</span>
+      <span class="k">app:</span> simple-app<span class="c">     # which pods this Deployment manages</span>
+  <span class="k">template:</span><span class="c">               # the pod it will create</span>
+    <span class="k">metadata:</span>
+      <span class="k">labels:</span>
+        <span class="k">app:</span> simple-app<span class="c">   # must match the selector above</span>
+    <span class="k">spec:</span>
+      <span class="k">containers:</span>
+      - <span class="k">name:</span> simple-app-container
+        <span class="k">image:</span> nginx:1.27<span class="c"> # pin a version, not :latest</span>
+        <span class="k">ports:</span>
+        - <span class="k">containerPort:</span> 80</code></pre>
+<h2>The Service</h2>
+<p>A Service that sends traffic to any pod labelled <code>app: simple-app</code>.</p>
+<pre class="code" tabindex="0" role="region" aria-label="YAML example"><code><span class="k">apiVersion:</span> v1
+<span class="k">kind:</span> Service
+<span class="k">metadata:</span>
+  <span class="k">name:</span> simple-app-service
+<span class="k">spec:</span>
+  <span class="k">selector:</span>
+    <span class="k">app:</span> simple-app<span class="c">       # send traffic to pods with this label</span>
+  <span class="k">ports:</span>
+  - <span class="k">protocol:</span> TCP
+    <span class="k">port:</span> 80<span class="c">              # the Service&#x27;s port</span>
+    <span class="k">targetPort:</span> 80<span class="c">        # the container&#x27;s port</span>
+  <span class="k">type:</span> ClusterIP<span class="c">         # reachable inside the cluster only</span></code></pre>
+<h2>What happens when you apply it</h2>
+<figure class="fig" style="max-width:34rem"><svg viewBox="0 0 520 404" role="img" aria-label="The path of one kubectl apply: kubectl, the API server and etcd, the Deployment controller, the ReplicaSet controller, the scheduler, then the kubelet. Each step watches the API server rather than calling the next." class="sv520"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs><rect class="d-box" x="10" y="8" width="236" height="44" rx="8"/><text class="d-t" x="128" y="36" text-anchor="middle">kubectl</text><text class="d-s" x="262" y="36" text-anchor="start">sends your YAML</text><line class="d-arrow" x1="128" y1="52" x2="128" y2="70" marker-end="url(#ah)"/><rect class="d-cp" x="10" y="70" width="236" height="44" rx="8"/><text class="d-t" x="128" y="98" text-anchor="middle">API server</text><text class="d-s" x="262" y="98" text-anchor="start">stores it in etcd</text><line class="d-arrow" x1="128" y1="114" x2="128" y2="132" marker-end="url(#ah)"/><rect class="d-cp" x="10" y="132" width="236" height="44" rx="8"/><text class="d-t" x="128" y="160" text-anchor="middle">Deployment controller</text><text class="d-s" x="262" y="160" text-anchor="start">makes a ReplicaSet</text><line class="d-arrow" x1="128" y1="176" x2="128" y2="194" marker-end="url(#ah)"/><rect class="d-cp" x="10" y="194" width="236" height="44" rx="8"/><text class="d-t" x="128" y="222" text-anchor="middle">ReplicaSet controller</text><text class="d-s" x="262" y="222" text-anchor="start">makes the pods</text><line class="d-arrow" x1="128" y1="238" x2="128" y2="256" marker-end="url(#ah)"/><rect class="d-cp" x="10" y="256" width="236" height="44" rx="8"/><text class="d-t" x="128" y="284" text-anchor="middle">Scheduler</text><text class="d-s" x="262" y="284" text-anchor="start">picks a node per pod</text><line class="d-arrow" x1="128" y1="300" x2="128" y2="318" marker-end="url(#ah)"/><rect class="d-node" x="10" y="318" width="236" height="44" rx="8"/><text class="d-t" x="128" y="346" text-anchor="middle">kubelet</text><text class="d-s" x="262" y="346" text-anchor="start">starts the containers</text><text class="d-s" x="10" y="392" text-anchor="start">Each step watches the API server; none calls the next directly.</text></svg><figcaption>One <code>kubectl apply</code>, six hand-offs. Nothing below the API server is called directly; each step watches the API server and reacts.</figcaption></figure>
+<pre class="code" tabindex="0" role="region" aria-label="Shell commands"><code>kubectl apply -f app.yaml            # create or update what the file describes
+kubectl get deployments,pods,svc      # see the objects it made
+kubectl describe pod &lt;pod-name&gt;       # events explain why a pod is not starting</code></pre>
+<p>The repository also has the full commented example: <a href="KubernetesExample.yaml">KubernetesExample.yaml</a>.</p>
+<div class="mistake"><b>Common mistake.</b> Using <code>image: nginx:latest</code>. The tag can change under you, so two pods from the same file can run different code. Pin a version.</div><nav class="pager" aria-label="Previous and next lesson"><a href="objects.html"><small>Back</small>Objects</a><a href="services.html"><small>Next</small>Services</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
 </body>
 </html>

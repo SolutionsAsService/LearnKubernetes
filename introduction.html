@@ -1,41 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introduction to Kubernetes</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works | Learn Kubernetes</title>
+<meta name="description" content="What Kubernetes is and the one idea behind it: desired state and a reconcile loop.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="introduction.html">Introduction</a></li>
-        <li><a href="components.html">Components</a></li>
-        <li><a href="tutorials.html">Tutorials</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>What is Kubernetes?</h2>
-      <p>Kubernetes is an open-source platform designed to automate the deployment, scaling, and operation of containerized applications. It groups containers that make up an application into logical units for easy management and discovery.</p>
-    </section>
-    <section>
-      <h3>Key Features</h3>
-      <ul>
-        <li>Automated Scheduling</li>
-        <li>Self-healing</li>
-        <li>Horizontal Scaling</li>
-        <li>Service Discovery and Load Balancing</li>
-        <li>Automated Rollouts and Rollbacks</li>
-      </ul>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
-  </footer>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html" aria-current="page">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html">Objects</a></li><li><a href="deploy.html">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html">Scaling</a></li><li><a href="rolling-updates.html">Updates</a></li><li><a href="tutorials.html">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 1 of 8</p><h1>How Kubernetes works</h1><p class="lede">Kubernetes runs containers, but the idea that matters is smaller: you say what you want, and software keeps it true.</p>
+<h2>Desired state</h2>
+<p>Kubernetes is an open-source system for running containerized applications across many machines. You do not tell it <em>do these steps</em>. You describe the <b>state you want</b>, such as "three copies of this app, version 1.21", and Kubernetes works out the steps.</p>
+<figure class="fig"><svg viewBox="0 0 760 230" role="img" aria-label="A loop: you declare the state you want, a controller compares it with what exists, the controller acts to close the gap, then it compares again." class="only-wide"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs><rect class="d-box" x="20" y="40" width="220" height="90" rx="10"/><text class="d-t" x="130" y="82" text-anchor="middle">You declare</text><text class="d-m" x="130" y="108" text-anchor="middle">replicas: 3</text><rect class="d-cp" x="270" y="40" width="220" height="90" rx="10"/><text class="d-t" x="380" y="82" text-anchor="middle">Controller compares</text><text class="d-m" x="380" y="108" text-anchor="middle">wanted 3, found 2</text><rect class="d-box" x="520" y="40" width="220" height="90" rx="10"/><text class="d-t" x="630" y="82" text-anchor="middle">Controller acts</text><text class="d-m" x="630" y="108" text-anchor="middle">create 1 pod</text><line class="d-arrow" x1="240" y1="85" x2="268" y2="85" marker-end="url(#ah)"/><line class="d-arrow" x1="490" y1="85" x2="518" y2="85" marker-end="url(#ah)"/><path class="d-arrow" d="M630 130 L630 190 L130 190 L130 134" marker-end="url(#ah)"/><text class="d-s" x="380" y="214" text-anchor="middle">repeat, forever: the loop is what keeps the cluster the way you asked</text></svg><svg viewBox="0 0 340 360" role="img" aria-label="A loop: you declare the state you want, a controller compares it with what exists, the controller acts to close the gap, then it compares again." class="only-narrow"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs><rect class="d-box" x="10" y="10" width="250" height="76" rx="10"/><text class="d-t" x="135" y="44" text-anchor="middle">You declare</text><text class="d-m" x="135" y="68" text-anchor="middle">replicas: 3</text><line class="d-arrow" x1="135" y1="86" x2="135" y2="114" marker-end="url(#ah)"/><rect class="d-cp" x="10" y="114" width="250" height="76" rx="10"/><text class="d-t" x="135" y="148" text-anchor="middle">Controller compares</text><text class="d-m" x="135" y="172" text-anchor="middle">wanted 3, found 2</text><line class="d-arrow" x1="135" y1="190" x2="135" y2="218" marker-end="url(#ah)"/><rect class="d-box" x="10" y="218" width="250" height="76" rx="10"/><text class="d-t" x="135" y="252" text-anchor="middle">Controller acts</text><text class="d-m" x="135" y="276" text-anchor="middle">create 1 pod</text><path class="d-arrow" d="M260 258 L318 258 L318 48 L264 48" marker-end="url(#ah)"/><text class="d-s" x="170" y="346" text-anchor="middle">repeat, forever</text></svg><figcaption>The reconcile loop. Every controller in Kubernetes is a version of this.</figcaption></figure>
+<div class="try"><b>Try it.</b> Open the <a href="scaling.html">Scaling lab</a>, click any pod to kill it, and watch the loop put it back.</div>
+<h2>What it gives you</h2>
+<ul class="cards">
+<li class="card"><h3>Scheduling</h3><p style="margin:0">New pods are placed on nodes that have room.</p></li>
+<li class="card"><h3>Self-healing</h3><p style="margin:0">A pod that dies is replaced. A node that disappears has its pods rescheduled.</p></li>
+<li class="card"><h3>Scaling</h3><p style="margin:0">Change a number to run more copies, or let an autoscaler change it.</p></li>
+<li class="card"><h3>Service discovery</h3><p style="margin:0">Pods find each other through stable names and load-balanced addresses.</p></li>
+<li class="card"><h3>Rollouts and rollbacks</h3><p style="margin:0">Update gradually, and go back if the new version is bad.</p></li>
+</ul>
+<div class="mistake"><b>Common mistake.</b> Thinking Kubernetes is a container runtime. It is the manager above the runtime: it decides what should run where, and asks a runtime such as containerd to run it.</div><nav class="pager" aria-label="Previous and next lesson"><a href="index.html"><small>Back</small>Start</a><a href="components.html"><small>Next</small>Architecture</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
 </body>
 </html>

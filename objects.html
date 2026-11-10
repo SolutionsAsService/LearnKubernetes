@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objects | Learn Kubernetes</title>
+<meta name="description" content="Pods, ReplicaSets, Deployments, Services and labels, with an ownership diagram.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html" aria-current="page">Objects</a></li><li><a href="deploy.html">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html">Scaling</a></li><li><a href="rolling-updates.html">Updates</a></li><li><a href="tutorials.html">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 3 of 8</p><h1>Objects</h1><p class="lede">Everything in Kubernetes is an object you describe in YAML. Four of them carry most of the load.</p>
+<h2>Who owns whom</h2>
+<figure class="fig" style="max-width:34rem"><svg viewBox="0 0 520 370" role="img" aria-label="Ownership: a Deployment owns a ReplicaSet, which owns three pods. A Service, drawn with dashed arrows, reaches all three because they carry the label app=web." class="sv520"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs><rect class="d-box" x="150" y="10" width="220" height="56" rx="10"/><text class="d-t" x="260" y="44" text-anchor="middle">Deployment web</text><line class="d-arrow" x1="260" y1="66" x2="260" y2="100" marker-end="url(#ah)"/><text class="d-s" x="276" y="90" text-anchor="start">owns</text><rect class="d-box" x="150" y="102" width="220" height="56" rx="10"/><text class="d-t" x="260" y="136" text-anchor="middle">ReplicaSet web-7d4</text><line class="d-arrow" x1="260" y1="158" x2="110" y2="212" marker-end="url(#ah)"/><rect class="d-pod-solid" x="62" y="214" width="96" height="70" rx="10"/><text class="d-pt" x="110" y="242" text-anchor="middle">Pod</text><text class="d-pt" x="110" y="268" text-anchor="middle">app=web</text><line class="d-arrow" x1="110" y1="318" x2="110" y2="288" stroke-dasharray="6 5" marker-end="url(#ah)"/><line class="d-arrow" x1="260" y1="158" x2="240" y2="212" marker-end="url(#ah)"/><rect class="d-pod-solid" x="192" y="214" width="96" height="70" rx="10"/><text class="d-pt" x="240" y="242" text-anchor="middle">Pod</text><text class="d-pt" x="240" y="268" text-anchor="middle">app=web</text><line class="d-arrow" x1="240" y1="318" x2="240" y2="288" stroke-dasharray="6 5" marker-end="url(#ah)"/><line class="d-arrow" x1="260" y1="158" x2="370" y2="212" marker-end="url(#ah)"/><rect class="d-pod-solid" x="322" y="214" width="96" height="70" rx="10"/><text class="d-pt" x="370" y="242" text-anchor="middle">Pod</text><text class="d-pt" x="370" y="268" text-anchor="middle">app=web</text><line class="d-arrow" x1="370" y1="318" x2="370" y2="288" stroke-dasharray="6 5" marker-end="url(#ah)"/><rect class="d-cp" x="40" y="320" width="440" height="40" rx="20"/><text class="d-s" x="260" y="346" text-anchor="middle">Service: selects app=web</text></svg><figcaption>You write the Deployment. It creates a ReplicaSet, which creates the pods. The dashed line is a label match, not ownership.</figcaption></figure>
+<div class="tblwrap"><table class="tbl"><thead><tr><th scope="col">Object</th><th scope="col">What it is</th><th scope="col">You usually</th></tr></thead><tbody>
+<tr><th scope="row">Pod</th><td>One or more containers that share a network address and storage</td><td>Let something else create it</td></tr>
+<tr><th scope="row">ReplicaSet</th><td>Keeps a stated number of identical pods running</td><td>Let a Deployment manage it</td></tr>
+<tr><th scope="row">Deployment</th><td>A ReplicaSet plus an update strategy and history</td><td>Write this</td></tr>
+<tr><th scope="row">Service</th><td>A stable address for a set of pods chosen by label</td><td>Write this</td></tr>
+<tr><th scope="row">Namespace</th><td>A named scope that groups objects</td><td>Use to separate teams or environments</td></tr>
+<tr><th scope="row">ConfigMap, Secret</th><td>Configuration and sensitive values kept outside the image</td><td>Mount or inject into pods</td></tr></tbody></table></div>
+<h2>Labels are the glue</h2>
+<p>A label is a key and a value on an object, such as <code>app: web</code>. A selector picks objects by label. A Deployment finds its pods that way, and so does a Service. Nothing is wired by name.</p>
+<div class="try"><b>Try it.</b> In the <a href="services.html">Services lab</a>, flip a pod's label and watch it drop out of the Service.</div>
+<div class="mistake"><b>Common mistake.</b> A selector that matches nothing. The object is created, nothing complains, and no traffic arrives. Check that the labels in the pod template and the selector are identical.</div><nav class="pager" aria-label="Previous and next lesson"><a href="components.html"><small>Back</small>Architecture</a><a href="deploy.html"><small>Next</small>Deploy</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
+</body>
+</html>

@@ -1,67 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Performing Rolling Updates</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Updates | Learn Kubernetes</title>
+<meta name="description" content="Kubernetes rolling updates: maxSurge and maxUnavailable explained with a step-by-step lab.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="deploy.html">Deploy Application</a></li>
-        <li><a href="scaling.html">Scaling</a></li>
-        <li><a href="rolling-updates.html">Rolling Updates</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Performing Rolling Updates</h2>
-      <p>
-        Kubernetes supports seamless rolling updates, allowing you to update your applications with minimal downtime. This is achieved by gradually replacing old pods with new ones.
-      </p>
-      <p>
-        The following YAML snippet configures a Deployment for rolling updates by specifying the update strategy:
-      </p>
-      <pre><code class="yaml">
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: rolling-update-app
-  labels:
-    app: rolling-update-app
-spec:
-  replicas: 3
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1       # Maximum extra pods that can be created during the update
-      maxUnavailable: 1 # Maximum pods that can be unavailable during the update
-  selector:
-    matchLabels:
-      app: rolling-update-app
-  template:
-    metadata:
-      labels:
-        app: rolling-update-app
-    spec:
-      containers:
-      - name: rolling-update-container
-        image: nginx:1.19  # Current image version
-        ports:
-        - containerPort: 80
-      </code></pre>
-      <p>
-        To perform an update, change the container's image (for example, to <code>nginx:1.21</code>), then apply the updated configuration. Kubernetes will then perform a rolling update by gradually replacing pods, ensuring minimal disruption.
-      </p>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
-  </footer>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html">Objects</a></li><li><a href="deploy.html">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html">Scaling</a></li><li><a href="rolling-updates.html" aria-current="page">Updates</a></li><li><a href="tutorials.html">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 7 of 8</p><h1>Rolling updates</h1><p class="lede">Change the image and Kubernetes replaces pods a few at a time. Two numbers set how bold it is: step through it.</p>
+<section class="lab" data-lab="roll" aria-labelledby="lr"><div><h2 id="lr">Step through an update</h2>
+<div class="js-only"><div class="field"><label for="replicas">replicas</label><select id="replicas" name="replicas"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></div><div class="field"><label for="surge">maxSurge</label><select id="surge" name="surge"><option>0</option><option selected>1</option><option>2</option></select></div><div class="field"><label for="unavail">maxUnavailable</label><select id="unavail" name="unavail"><option>0</option><option selected>1</option><option>2</option></select></div>
+<div class="row"><button type="button" data-back class="ghost">Back</button><button type="button" data-next>Next step</button><button type="button" class="ghost" data-reset>Reset</button></div></div>
+<p class="note no-js">Turn on JavaScript to step through. The YAML below sets the two numbers.</p></div>
+<div><div class="pods js-only" role="group" style="min-height:6rem;margin-bottom:.8rem" aria-label="Pods during the update"></div><p class="status" role="status" aria-live="polite">Step through the update.</p>
+<p class="note">Dark blue is v2, light is v1, dashed is starting. A simplified model: new pods are ready the next step, and real readiness checks take time.</p></div></section>
+<h2>The two numbers</h2>
+<pre class="code" tabindex="0" role="region" aria-label="YAML example"><code><span class="k">spec:</span>
+  <span class="k">replicas:</span> 3
+  <span class="k">strategy:</span>
+    <span class="k">type:</span> RollingUpdate
+    <span class="k">rollingUpdate:</span>
+      <span class="k">maxSurge:</span> 1<span class="c">          # extra pods allowed above replicas during the update</span>
+      <span class="k">maxUnavailable:</span> 1<span class="c">    # pods allowed to be unavailable during the update</span></code></pre>
+<ul class="plain"><li><code>maxSurge</code>: how many pods above <code>replicas</code> may exist while the update runs. More surge is faster and needs spare capacity.</li><li><code>maxUnavailable</code>: how many pods may be missing from the serving count. Zero means capacity never drops.</li><li>They cannot both be zero. If you set neither, both default to 25%, and percentages round surge up and unavailable down (with 3 replicas that is 1 and 0).</li></ul>
+<pre class="code" tabindex="0" role="region" aria-label="Shell commands"><code>kubectl set image deployment/simple-app simple-app-container=nginx:1.27   # the Deployment from the Deploy lesson
+kubectl rollout status deployment/simple-app
+kubectl rollout undo deployment/simple-app    # back to the previous version</code></pre>
+<div class="mistake"><b>Common mistake.</b> No readiness probe. Without one, Kubernetes counts a new pod as ready the moment its container starts, and a rollout can finish while the app is still booting.</div><nav class="pager" aria-label="Previous and next lesson"><a href="scaling.html"><small>Back</small>Scaling</a><a href="tutorials.html"><small>Next</small>Practice</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
 </body>
 </html>

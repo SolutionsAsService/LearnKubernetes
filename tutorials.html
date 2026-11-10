@@ -1,62 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes Tutorials</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice | Learn Kubernetes</title>
+<meta name="description" content="Run Kubernetes locally with kind or minikube, follow a five-step practice path and use a kubectl cheat sheet.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="introduction.html">Introduction</a></li>
-        <li><a href="components.html">Components</a></li>
-        <li><a href="tutorials.html">Tutorials</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Getting Started with Kubernetes</h2>
-      
-      <!-- Article linking to Deploying a Simple Application -->
-      <article>
-        <a href="deploy.html" class="tutorial-link">
-          <h3>Deploying a Simple Application</h3>
-          <p>
-            Learn how to deploy a simple application using a Kubernetes Deployment and expose it via a Service.
-            Explore sample YAML files to see how Kubernetes resources are defined and managed.
-          </p>
-        </a>
-      </article>
-      
-      <!-- Article linking to Scaling Your Application -->
-      <article>
-        <a href="scaling.html" class="tutorial-link">
-          <h3>Scaling Your Application</h3>
-          <p>
-            Understand how to scale your application by adjusting the number of replicas in your Deployment configuration.
-          </p>
-        </a>
-      </article>
-      
-      <!-- Article linking to Performing Rolling Updates -->
-      <article>
-        <a href="rolling-updates.html" class="tutorial-link">
-          <h3>Performing Rolling Updates</h3>
-          <p>
-            Discover how Kubernetes supports seamless rolling updates, allowing you to update applications with minimal downtime.
-          </p>
-        </a>
-      </article>
-      
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
-  </footer>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html">Objects</a></li><li><a href="deploy.html">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html">Scaling</a></li><li><a href="rolling-updates.html">Updates</a></li><li><a href="tutorials.html" aria-current="page">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 8 of 8</p><h1>Practice</h1><p class="lede">Reading gets you the vocabulary. A cluster on your own machine gets you the rest.</p>
+<h2>A cluster on your laptop</h2>
+<p>You need a container runtime such as Docker or Podman, and <code>kubectl</code>. Then either of these makes a one-node cluster:</p>
+<pre class="code" tabindex="0" role="region" aria-label="Shell commands"><code>kind create cluster        # Kubernetes in Docker
+# or
+minikube start             # a local VM or container
+
+kubectl get nodes          # you should see one node, Ready</code></pre>
+<h2>A path through the lessons</h2>
+<ol class="steps"><li><div><b>Apply the Deployment</b><span>Save the YAML from <a href="deploy.html">Deploy</a> and run <code>kubectl apply -f</code>.</span></div></li>
+<li><div><b>Kill a pod</b><span>Run <code>kubectl delete pod</code> on one, then <code>kubectl get pods -w</code>. Compare with the <a href="scaling.html">lab</a>.</span></div></li>
+<li><div><b>Scale to 3</b><span>Change <code>replicas</code>, apply again, and see where the pods land with <code>kubectl get pods -o wide</code>.</span></div></li>
+<li><div><b>Reach it</b><span>Create the Service from <a href="services.html">Services</a> and run <code>kubectl port-forward svc/simple-app-service 8080:80</code>.</span></div></li>
+<li><div><b>Update it</b><span>Change the image tag and watch <code>kubectl rollout status</code>. Then undo it.</span></div></li></ol>
+<h2>kubectl cheat sheet</h2>
+<div class="tblwrap"><table class="tbl"><thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead><tbody>
+<tr><th scope="row"><code>kubectl get pods</code></th><td>List pods. Add <code>-o wide</code> for nodes, <code>-w</code> to watch</td></tr>
+<tr><th scope="row"><code>kubectl describe pod NAME</code></th><td>Details and recent events for one pod</td></tr>
+<tr><th scope="row"><code>kubectl logs NAME</code></th><td>The container's output</td></tr>
+<tr><th scope="row"><code>kubectl apply -f FILE</code></th><td>Create or update from a file</td></tr>
+<tr><th scope="row"><code>kubectl delete -f FILE</code></th><td>Delete what a file describes</td></tr>
+<tr><th scope="row"><code>kubectl scale deployment/NAME --replicas=N</code></th><td>Change the replica count</td></tr>
+<tr><th scope="row"><code>kubectl rollout status deployment/NAME</code></th><td>Wait for an update to finish</td></tr>
+<tr><th scope="row"><code>kubectl rollout undo deployment/NAME</code></th><td>Go back one revision</td></tr>
+<tr><th scope="row"><code>kubectl port-forward svc/NAME 8080:80</code></th><td>Reach a Service from your machine</td></tr></tbody></table></div>
+<div class="mistake"><b>Common mistake.</b> Running commands against the wrong cluster. Check with <code>kubectl config current-context</code> before you delete anything.</div><nav class="pager" aria-label="Previous and next lesson"><a href="rolling-updates.html"><small>Back</small>Updates</a><a href="index.html"><small>Done</small>Back to the start</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
 </body>
 </html>

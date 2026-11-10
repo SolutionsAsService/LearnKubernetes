@@ -1,62 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scaling Your Application</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaling | Learn Kubernetes</title>
+<meta name="description" content="Scale a Kubernetes Deployment and watch self-healing replace a killed pod in an interactive lab.">
+<meta name="theme-color" content="#10264a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23326ce5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className = 'js'</script>
+<script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Kubernetes Learning Hub</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="deploy.html">Deploy Application</a></li>
-        <li><a href="scaling.html">Scaling</a></li>
-        <li><a href="rolling-updates.html">Rolling Updates</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Scaling Your Application</h2>
-      <p>
-        Understand how to scale your application by adjusting the number of replicas in your Deployment configuration.
-      </p>
-      <p>
-        By increasing the number of replicas, you can improve application availability and load-handling capacity. For example, changing the <code>replicas</code> field from 1 to 3 will instruct Kubernetes to run three instances of your application.
-      </p>
-      <pre><code class="yaml">
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: scalable-app
-  labels:
-    app: scalable-app
-spec:
-  replicas: 3   # Increase the number of replicas to 3
-  selector:
-    matchLabels:
-      app: scalable-app
-  template:
-    metadata:
-      labels:
-        app: scalable-app
-    spec:
-      containers:
-      - name: scalable-app-container
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-      </code></pre>
-      <p>
-        After updating the YAML file, apply the changes using <code>kubectl apply -f scaling.yaml</code> (or your chosen filename), and Kubernetes will manage the scaling process automatically.
-      </p>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Kubernetes Learning Hub</p>
-  </footer>
+<a class="skip" href="#main">Skip to the lesson</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><svg viewBox='0 0 32 32' aria-hidden='true'><circle cx='16' cy='16' r='13' fill='none' stroke='currentColor' stroke-width='2.5'/><circle cx='16' cy='16' r='3.2' fill='currentColor'/><line x1='16' y1='16' x2='27.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='27.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='23.8' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='5.0' y2='16.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='8.2' y2='8.2' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='16.0' y2='5.0' stroke='currentColor' stroke-width='2.2'/><line x1='16' y1='16' x2='23.8' y2='8.2' stroke='currentColor' stroke-width='2.2'/></svg>Learn Kubernetes</a>
+<nav aria-label="Lessons"><details class="navbox" open><summary>Menu</summary><ul><li><a href="index.html">Home</a></li><li><a href="introduction.html">How it works</a></li><li><a href="components.html">Architecture</a></li><li><a href="objects.html">Objects</a></li><li><a href="deploy.html">Deploy</a></li><li><a href="services.html">Services</a></li><li><a href="scaling.html" aria-current="page">Scaling</a></li><li><a href="rolling-updates.html">Updates</a></li><li><a href="tutorials.html">Practice</a></li></ul></details></nav>
+</div></header>
+<script>if (window.innerWidth <= 832) document.querySelector(".navbox").open = false</script>
+<main id="main">
+<div class="wrap lesson"><p class="kicker">Lesson 6 of 8</p><h1>Scaling and self-healing</h1><p class="lede">Change one number and the cluster runs more copies. Kill a pod and the cluster notices.</p>
+<section class="lab" data-lab="scale" aria-labelledby="lsc"><div><h2 id="lsc">Set the replicas</h2>
+<div class="field js-only"><label for="rep">replicas <output for="rep">3</output></label><input type="range" id="rep" min="1" max="9" value="3"></div>
+<p class="note">Activate any pod to kill it.</p>
+<p class="note no-js">Turn on JavaScript to use the lab. The YAML below is the whole idea.</p></div>
+<div><div class="cluster js-only" role="group" aria-label="Three nodes and their pods"></div><p class="status" role="status" aria-live="polite" style="margin-top:.8rem">Desired replicas: 3.</p></div></section>
+<p class="note">A simplified model: pods are spread evenly. The real scheduler also weighs resource requests, constraints and spread rules.</p>
+<h2>The only change</h2>
+<pre class="code" tabindex="0" role="region" aria-label="YAML example"><code><span class="k">spec:</span>
+  <span class="k">replicas:</span> 3<span class="c">   # was 1; apply the file again and Kubernetes starts two more</span></code></pre>
+<pre class="code" tabindex="0" role="region" aria-label="Shell commands"><code>kubectl scale deployment/simple-app --replicas=3   # the same change, from the command line
+kubectl get pods -w                                   # watch the pods appear</code></pre>
+<h2>Autoscaling</h2>
+<p>A <b>HorizontalPodAutoscaler</b> changes the replica count for you from a metric such as CPU use. It needs a metrics source installed in the cluster, and your pods need resource requests so a percentage means something.</p>
+<div class="mistake"><b>Common mistake.</b> Editing the number of pods by hand while an autoscaler owns it. The autoscaler will change it back. Set the bounds, not the count.</div><nav class="pager" aria-label="Previous and next lesson"><a href="services.html"><small>Back</small>Services</a><a href="rolling-updates.html"><small>Next</small>Updates</a></nav></div>
+</main>
+<footer class="foot"><div class="wrap">
+<p>An independent learning guide. Not affiliated with or endorsed by the Kubernetes project or the Linux Foundation; Kubernetes is a trademark of The Linux Foundation. The diagrams are our own drawings and simplify what the real components do.</p>
+<p><a href="https://kubernetes.io/docs/home/">Official Kubernetes documentation</a> &middot; <a href="https://github.com/SolutionsAsService/LearnKubernetes">Source on GitHub</a> &middot; <a href="CONTRIBUTING.md">Contribute</a></p>
+</div></footer>
 </body>
 </html>
