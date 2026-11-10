@@ -1,9 +1,9 @@
 /* Learn Kubernetes: a chart-room. Kubernetes is Greek for helmsman; the pages are charts you steer by.
    Tokens first; diagrams are inline SVG painted with the same tokens. */
 :root {
-  --chart: #f3ecd9; --card: #fbf7ea; --ink: #10264a; --soft: #44557a; --line: #d8cdb0;
-  --k8s: #326ce5; --k8s-ink: #ffffff; --cp: #b9770e; --pod: #14796b; --warn: #c4381b; --ring: #1d4ed8;
-  --cp-tint: #f1dcae; --node-tint: #dfe7f6; --pod-tint: #cfeae4;
+  --chart: #f3f7fe; --card: #ffffff; --ink: #0d2352; --soft: #475a80; --line: #d3def2;
+  --k8s: #326ce5; --k8s-ink: #ffffff; --cp: #1f4fb8; --pod: #14796b; --warn: #c4381b; --ring: #1d4ed8;
+  --cp-tint: #dbe6fd; --node-tint: #eaf1ff; --pod-tint: #d6efe9;
   --code-bg: #0f2144; --code-ink: #f3ecd9; --code-key: #f0c66a; --code-val: #8fe0d0; --code-cm: #9fb0d4;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: "Avenir Next", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
@@ -11,9 +11,9 @@
   --r: 12px; --max: 70rem;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --chart: #0a1730; --card: #112349; --ink: #eef1f8; --soft: #b0bcd8; --line: #243a66;
-    --k8s: #7aa2ff; --k8s-ink: #0a1730; --cp: #f0b23c; --pod: #52d6bd; --warn: #ff8f70; --ring: #9bbcff;
-    --cp-tint: #3b3216; --node-tint: #16305f; --pod-tint: #123f48; --code-bg: #07112a; }
+  :root { --chart: #0a1a3a; --card: #11285a; --ink: #eef3ff; --soft: #b3c2e6; --line: #25427a;
+    --k8s: #7aa2ff; --k8s-ink: #0a1a3a; --cp: #8fb0ff; --pod: #52d6bd; --warn: #ff8f70; --ring: #9bbcff;
+    --cp-tint: #1b3c86; --node-tint: #14316b; --pod-tint: #123f48; --code-bg: #07112a; }
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -176,3 +176,26 @@ g[data-part] { cursor: default; }
 [data-lab=svc] .pods { gap: .7rem; } [data-lab=svc] .pod { min-width: 6.2rem; min-height: 4.6rem; font-size: .85rem; }
 [data-lab=scale] .pod { min-width: 3.4rem; min-height: 3.4rem; font-size: .8rem; } [data-lab=scale] .cnode { min-height: 12rem; }
 .pod.ghost-pod { border-style: dashed; background: transparent; color: var(--soft); }
+
+/* plainer: less ornament, more Kubernetes blue */
+body { background-image: none; }
+h1, h2, h3, .brand, .steps b { font-family: var(--sans); letter-spacing: -.02em; }
+.hero .kicker::after, .lesson .kicker::after { display: none; }
+.site { background: var(--k8s); border-bottom: 0; color: var(--k8s-ink); }
+.site a, .brand { color: var(--k8s-ink); }
+.site nav a:hover { background: rgba(255,255,255,.18); color: var(--k8s-ink); }
+.site nav a[aria-current="page"], .site nav a[aria-current="page"]:hover { background: var(--k8s-ink); color: var(--k8s); }
+.navbox > summary { background: transparent; color: var(--k8s-ink); border-color: var(--k8s-ink); box-shadow: none; }
+.navbox[open] > summary { background: var(--k8s-ink); color: var(--k8s); }
+.navbox > ul { background: var(--k8s); border-bottom: 0; box-shadow: none; }
+.card, .panel, .lab, .hero .fig, .cards a.tile, .pager a { box-shadow: none; border: 1.5px solid var(--line); }
+.cards a.tile:hover { transform: none; box-shadow: none; border-color: var(--k8s); }
+.btn, button { box-shadow: none; border: 0; }
+button.ghost, .btn.ghost { border: 1.5px solid var(--k8s); color: var(--k8s); background: transparent; }
+button:active { transform: none; }
+.foot { border-top: 0; background: var(--ink); color: var(--chart); } .foot a { color: var(--chart); }
+.pager a { color: var(--ink); }
+.mistake { border-left-color: var(--warn); } .try { border-left-color: var(--k8s); }
+.tbl { border: 1.5px solid var(--line); } .tbl thead th { background: var(--k8s); color: var(--k8s-ink); }
+pre.code { border: 0; }
+@media (prefers-color-scheme: dark) { .foot { background: #06122b; } .tbl thead th { color: #0a1a3a; } }

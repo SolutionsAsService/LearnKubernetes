@@ -44,3 +44,6 @@ S1 Frontier: no OPEN items. S2: every seat objected, every finding adopted, over
 - A diagram for the narrow screen is a second drawing, not a smaller one.
 - Links inside an image role are not reachable by a screen reader: use a group.
 - A diagram of a system that coordinates through one hub must not draw a chain of calls.
+
+## Follow-up (after the person's review)
+The person called it a solid A minus and asked for slightly more Kubernetes blue and less visible styling. Done: Kubernetes blue (#326ce5) header, tables and accents, a blue-tinted page and a blue control plane in place of gold; the dot grid, ruler, compass, double rules, offset shadows and serif headings removed. The grade is kept in the dada ledger, not here.
